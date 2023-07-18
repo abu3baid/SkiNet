@@ -12,6 +12,13 @@ builder.Services.AddDbContext<StoreContext>(x => x.UseSqlServer(builder.Configur
 
 builder.Services.AddApplicationServices();
 builder.Services.AddSwaggerDocumentation();
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy("CorsPolicy", policy =>
+    {
+        policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
+    });
+});
 
 builder.Services.AddEndpointsApiExplorer();
 
@@ -42,6 +49,8 @@ app.UseHttpsRedirection();
 
 app.UseRouting();
 app.UseStaticFiles();
+
+app.UseCors("CorsPolicy");
 
 app.UseAuthorization();
 
